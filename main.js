@@ -42,27 +42,37 @@ var cUrl=window.location.href;
 		++testItem;
 	});
 	if(testItem<0){
+	
 		hideLoadFeedButton();
 	}
 	
-	
+
 		$( "#loadfeed" ).on("click", function()
 		{
 			
 			$.each($('.poster_feed'), function() {
-										   
-				if(this.id<(feedpage*12)){
+				
+				
+				var showId=(feedpage*12)
+			
+				if(this.id<showId)
+				{
 					$( "#itemFeed"+(this.id) ).css("display", "block");
-					--testItem;
+					
 				}
 				
 			});
+			testItem=testItem-12;
+			console.log("testItem"+testItem)
 				if(testItem<0)
 				{
+					
 					hideLoadFeedButton();
 				}
 			++feedpage;
 		});		
+		
+		
 $("#user-request").on("submit",function (event) {	
 														 
 			var cssStatCode;
