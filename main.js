@@ -24,11 +24,45 @@ var keyword = getKeywordFormUrl('q');
 	 }
 };
 
+function hideLoadFeedButton()
+{
+	$( "#loadfeed" ).css("display", "none");
+}
 ////////////////////////////////////////// document ready
+var feedpage=2;	var testItem=-12;
 $( document ).ready(function()
 {
+var cUrl=window.location.href;
+		$( "#social_group_btn" ).html('<a class="shareBtn" href="mailto:?Subject=Title&amp;Body=Click!! '+cUrl+'"><img src="https://mov789.com/library/images/sent-mail.png" alt="Email" /></a><a  class="shareBtn" href="http://www.facebook.com/sharer.php?u='+cUrl+'" target="_blank"><img src="https://mov789.com/library/images/facebook.png" alt="Facebook" /></a><a class="shareBtn" href="https://plus.google.com/share?url='+cUrl+'" target="_blank"><img src="https://mov789.com/library/images/google-plus-symbol.png" alt="Google" /></a> <a class="shareBtn" href="https://twitter.com/share?url='+cUrl+'" target="_blank"><img src="https://mov789.com/library/images/twitter-logo-on-black-background.png" alt="Twitter" /></a>');
+
+
+
+
+	$.each($('.poster_feed'), function() {
+		++testItem;
+	});
+	if(testItem<0){
+		hideLoadFeedButton();
+	}
 	
 	
+		$( "#loadfeed" ).on("click", function()
+		{
+			
+			$.each($('.poster_feed'), function() {
+										   
+				if(this.id<(feedpage*12)){
+					$( "#itemFeed"+(this.id) ).css("display", "block");
+					--testItem;
+				}
+				
+			});
+				if(testItem<0)
+				{
+					hideLoadFeedButton();
+				}
+			++feedpage;
+		});		
 $("#user-request").on("submit",function (event) {	
 														 
 			var cssStatCode;
@@ -218,9 +252,9 @@ function chageSRCtofit(imageDataSource)
 	{
 		//	alert(imageDataSource.indexOf("blogspot.com"));
 		var w = window.innerWidth;
-		if(w>640)
+		if(w>160)
 		{
-			w=640;
+			w=160;
 		}
 		var res = imageDataSource.split("/");
 		var newUrl = imageDataSource.replace(res[7], "w"+w);
@@ -288,7 +322,7 @@ function getDocHeight() {
 }
 
 
-
+/*
  $(window).scroll(function(){
 						   
 						   
@@ -301,17 +335,9 @@ if(noscroll==1){}else
           sendRequestServer( 'DATE','DESC', 5  );
 }
       }
-	  /*
-	  	   addHeight=(window.innerHeight*0.5);
-		   console.log(($(this).scrollTop()+'***'+addHeight)+'**'+((document.getElementById("feed_con").clientHeight)) );
-		   
-		   
-		   	if($(this).scrollTop()+addHeight>((document.getElementById("feed_con").clientHeight)*0.9))
-			{ 
-				sendRequestServer( 'DATE','DESC', 5  );
-			}*/
  });    
 
+*/
 
 
 

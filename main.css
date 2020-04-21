@@ -12,7 +12,10 @@ body{background-color:#000000;} .row {
 	text-decoration:none;display: inline-block;
 }
 
-
+.hide_item
+{
+ display: none; 
+}
 
 .w100 {
 height:100%;
@@ -77,10 +80,15 @@ width: 100%;
 }
 
 .poster_feed{
-margin:10px;
+margin:0px;
 display:inline-block;
 
 }
+.shareBtn{
+margin:8px;
+}.box_relate
+{
+margin-top:24px;}
 .poster_feed img{
 width:100%;
 max-width:160px
