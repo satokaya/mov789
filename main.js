@@ -209,15 +209,17 @@ $(".search_staff").on("submit",function (event) {
 				if (http.status === 200) 
 				{  
 					var response=http.responseText;
+					//console.log(http.responseText)
 					var	 res_obj=JSON.parse(http.responseText);
 					//alert(response);
 					//console.log(res_obj)
-					if(res_obj.length==0)
+					if(response == '' || response==null || response==undefined ||  response.length<=5)
 					{
-						$('.main_con').html('<div align="center" class="error_404_text" >เราไม่พบสิ่งที่คุณกำลังค้นหา...</div>');
+								$('#feed_con').html('');
+						$('#feed_con').html('<div align="center" class="error_404_text" >เราไม่พบสิ่งที่คุณกำลังค้นหา...</div>');
 					}else
 					{
-							$('.main_con').html('');
+							$('#feed_con').html('');
 							$('#keyword').val('');
 								fetchListFormJSONobj(res_obj);
 								page=1;
@@ -250,10 +252,33 @@ $(".search_staff").on("submit",function (event) {
 
 function fetchListFormJSONobj(res_obj)
 {
+	//console.log(res_obj)
+
+	var	 res_obj=JSON.parse(res_obj[0]['cache_text']); 
+	//console.log(res_obj);
+var m=0;
+	$.each(res_obj, function(res_obj, obj) 
+	{
+			var desPlay='w';
+			if(obj['video_type']=='p'){
+				desPlay='p';
+			}
+			if(m>59){}else
+			{
+								$('#feed_con').append('<div align="center" class="poster_feed" ><a href="https://www.mov789.com/'+desPlay+'/'+obj['id_msg']+'"><img src="'+chageSRCtofit(obj['screenshot'])+'" /></a><br><div class="poster_title">['+obj['subject']+']</div></div>');
+			}
+								++m;
+								
+	}); 
+	/*
 	$.each(res_obj, function(idx, obj) 
 	{
-								$('.main_con').append('<div align="center" class="poster_feed" ><a href="https://www.mov789.com/w/'+obj['id_msg']+'"><img src="'+chageSRCtofit(obj['screenshot'])+'" /></a><br><div class="poster_title">['+obj['subject']+']</div></div>');
-	});
+			var desPlay='w';
+			if(obj['video_type']=='p'){
+				desPlay='p';
+			}
+								$('#feed_con').append('<div align="center" class="poster_feed" ><a href="https://www.mov789.com/'+desPlay+'/'+obj['id_msg']+'"><img src="'+chageSRCtofit(obj['screenshot'])+'" /></a><br><div class="poster_title">['+obj['subject']+']</div></div>');
+	});*/
 }
 function chageSRCtofit(imageDataSource)
 {
