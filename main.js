@@ -8,7 +8,7 @@
 
 
 
-var global_dir="xhr.php";
+var global_dir="/xhr.php";
 
 
 var page=1,offset=5,lastQueryId=0;
