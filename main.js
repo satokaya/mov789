@@ -8,7 +8,7 @@
 
 
 
-var global_dir="/xhr.php";
+var global_dir="xhr.php";
 
 
 var page=1,offset=5,lastQueryId=0;
@@ -270,6 +270,10 @@ var m=0;
 								++m;
 								
 	}); 
+	if(res_obj.length<=0){
+		
+		$('#feed_con').append('<div align="center" class="poster_feed" ><div class="poster_title">ไม่พบสิ่งที่คุณกำลังค้นหา...!</div></div>');
+	}
 	/*
 	$.each(res_obj, function(idx, obj) 
 	{
