@@ -3,6 +3,10 @@ body{background-color:#000000;} .row {
 	flex-direction: row;
 	justify-content: space-around;
 }
+#buttonembed
+{
+cursor:pointer;
+}
 .white_text
 {
     color: white;
@@ -11,12 +15,17 @@ body{background-color:#000000;} .row {
 	 margin: 4px; 
 	text-decoration:none;display: inline-block;
 }
-
+.logo_home{
+margin: 0px 1em 0px 0px;
+}
 .hide_item
 {
  display: none; 
 }
-
+.green_blod
+{color:#009900;
+font-weight:bold;
+}
 .w100 {
 height:100%;
 }
@@ -84,7 +93,7 @@ margin:0px;
 display:inline-block;
 
 }
-.shareBtn{
+.shareBtn,#buttonembed{
 margin:8px;
 }.box_relate
 {

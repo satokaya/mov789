@@ -8,7 +8,7 @@
 
 
 
-var global_dir="/xhr.php";
+var global_dir="xhr.php";
 
 
 var page=1,offset=5,lastQueryId=0;
@@ -28,12 +28,95 @@ function hideLoadFeedButton()
 {
 	$( "#loadfeed" ).css("display", "none");
 }
+function callembedCode(url)
+{
+	$( "#embedurl" ).html('<input type="text"   value="'+url+'"  />');
+}function callembedVideoCode(url)
+{
+	$( "#embedurl" ).html('<span class="white_text">สำหรับเว็บไซด์, บล็อก</span><br><input type="text"   value="&lt;iframe src=&quot;'+getembedIframeUrl(url)+'&quot; class=&quot;embed-responsive-item&quot; width=&quot;600&quot; height=&quot;320&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;fullscreen&quot;&gt;&lt;/iframe&gt;"  />');
+}
+function getCommonUrlNoAds(url)
+{
+	/*url='https://mov789.com/w/3284/3';*/
+	var res = url.split("/");
+	
+	return ('https://mov789.com/'+res[3]+'/'+res[4]);
+}function getCommonUrlWithAds(url)
+{
+	/*url='https://mov789.com/w/3284/3';*/
+	var res = url.split("/");
+	if(res[5]>0)
+{return ('https://mov789.com/'+res[3]+'/'+res[4]+'/'+res[5]);}else
+{
+	return ('https://mov789.com/'+res[3]+'/'+res[4]);
+}
+}
+function getembedIframeUrl(url)
+{
+	/*url='https://mov789.com/w/3284/3';*/
+	var res = url.split("/");
+if(res[5]>0)
+{return ('https://mov789.com/embed/'+res[3]+'/'+res[4]+'/'+res[5]);}else
+{
+	return ('https://mov789.com/embed/'+res[3]+'/'+res[4]);
+}
+}
+function getAdsUserParam(url)
+{
+	/*url='https://mov789.com/w/3284/3';*/
+	var res = url.split("/");
+	if(res[3]=="w"||res[3]=="W"||res[3]=="play")
+	{
+			return (res[5]);
+	}else
+	{
+		return 0;
+		}
+}
 ////////////////////////////////////////// document ready
-var feedpage=2;	var testItem=-12;
+var feedpage=2;	var testItem=-12;var startAd=0;
 $( document ).ready(function()
 {
+	
 var cUrl=window.location.href;
-		$( "#social_group_btn" ).html('<a class="shareBtn" href="mailto:?Subject=Title&amp;Body=Click!! '+cUrl+'"><img src="https://mov789.com/library/images/sent-mail.png" alt="Email" /></a><a  class="shareBtn" href="http://www.facebook.com/sharer.php?u='+cUrl+'" target="_blank"><img src="https://mov789.com/library/images/facebook.png" alt="Facebook" /></a><a class="shareBtn" href="https://plus.google.com/share?url='+cUrl+'" target="_blank"><img src="https://mov789.com/library/images/google-plus-symbol.png" alt="Google" /></a> <a class="shareBtn" href="https://twitter.com/share?url='+cUrl+'" target="_blank"><img src="https://mov789.com/library/images/twitter-logo-on-black-background.png" alt="Twitter" /></a>');
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+//alert('popupAds'+cUrl);
+const puser = getAdsUserParam(cUrl) ;
+//alert(puser);
+const dataId=parseInt( $("#social_group_btn").attr("data") ,10);
+
+var urlembed='';
+if(puser>0)
+{
+	$(document).on('click','body *',function(){
+											 
+											 if(startAd<=0)
+											 {
+												// alert('popupAds'+startAd);
+												window.open('https://test.mov789.com/popout/'+puser);
+											 ++startAd;
+											 }
+	});	
+}
+if(puser>0|| dataId>0)
+{
+		if(dataId>0)
+		{
+			 urlembed=getCommonUrlNoAds(cUrl)+'/'+dataId;
+		}else{
+			urlembed=getCommonUrlNoAds(cUrl)+'/'+puser;
+		}
+		
+	$( "#social_group_btn" ).html('<span id="buttonembed" onclick="callembedCode(\''+urlembed+'\');" ><img src="https://mov789.com/library/images/link1.png" alt="embed" /></span><span id="buttonembed" onclick="callembedVideoCode(\''+urlembed+'\');" ><img src="https://mov789.com/library/images/embed1.png" alt="embed" /></span><a  class="shareBtn" href="http://www.facebook.com/sharer.php?u='+urlembed+'" target="_blank"><img src="https://mov789.com/library/images/facebook1.png" alt="Facebook" /></a><a class="shareBtn" href="https://twitter.com/share?url='+urlembed+'" target="_blank"><img src="https://mov789.com/library/images/twitter1.png" alt="Twitter" /></a><a class="shareBtn" href="https://plus.google.com/share?url='+urlembed+'" target="_blank"><img src="https://mov789.com/library/images/google-plus-symbol1.png" alt="Google" /></a><a class="shareBtn" href="mailto:?Subject=Title&amp;Body=Click!! '+urlembed+'"><img src="https://www.mov789.com/library/images/send1.png" alt="Email" /></a><br><div id="embedurl"></div> ');
+	
+}else
+{
+		var trimUrl=getCommonUrlWithAds(cUrl);
+		$( "#social_group_btn" ).html('<span id="buttonembed" onclick="callembedCode(\''+trimUrl+'\');" ><img src="https://mov789.com/library/images/link0.png" alt="embed" /></span><span id="buttonembed" onclick="callembedVideoCode(\''+cUrl+'\');" ><img src="https://mov789.com/library/images/embed0.png" alt="embed" /></span><a  class="shareBtn" href="http://www.facebook.com/sharer.php?u='+trimUrl+'" target="_blank"><img src="https://mov789.com/library/images/facebook.png" alt="Facebook" /></a> <a class="shareBtn" href="https://twitter.com/share?url='+trimUrl+'" target="_blank"><img src="https://mov789.com/library/images/twitter-logo-on-black-background.png" alt="Twitter" /></a><a class="shareBtn" href="https://plus.google.com/share?url='+trimUrl+'" target="_blank"><img src="https://mov789.com/library/images/google-plus-symbol.png" alt="Google" /></a><a class="shareBtn" href="mailto:?Subject=Title&amp;Body=Click!! '+trimUrl+'"><img src="https://mov789.com/library/images/sent-mail.png" alt="Email" /></a><br><div id="embedurl"></div> ');
+		
+}
 
 
 
@@ -71,10 +154,54 @@ var cUrl=window.location.href;
 				}
 			++feedpage;
 		});		
+$(".user_form_promotion").on("submit",function (event) {
+				var cssStatCode;
+			var pageid;
+	$('#progress').css({'display': 'block'});
+	event.preventDefault();
+  var fd = new FormData();
+ 
+	 var etcData = $(this).serializeArray();
+	    $.each(etcData,function(key,input){
+        fd.append(input.name,input.value);
+		//console.log(input.name+'*'+input.value)
+    });		
 		
 		
-$("#user-request").on("submit",function (event) {	
-														 
+	
+        var http = new XMLHttpRequest();
+		var url = global_dir;
+		http.open("POST", url, true);
+		
+		http.onreadystatechange = function() {
+			if (http.readyState === 4) {  
+				if (http.status === 200) 
+				{  
+				//	alert(http.responseText)
+			     	var	 res_obj=JSON.parse(http.responseText); 
+					
+					if(res_obj[2]!='' && res_obj[2]!=null && res_obj[2]!=undefined)
+					{
+						
+						
+						if(res_obj[1]>0)
+						{
+							$('#activity'+res_obj[1]).html('<label  class="green_blod" >เสร็จ</label>');
+						
+						}
+					}
+				} 
+				else {  
+				}  
+   			 }  
+			
+		}
+		http.send((fd));
+});
+
+
+$("#force_post").on("submit",function (event) {	
+													 
 			var cssStatCode;
 			var pageid;
 	$('#progress').css({'display': 'block'});
@@ -86,7 +213,41 @@ $("#user-request").on("submit",function (event) {
         fd.append(input.name,input.value);
 		
     });
+        var http = new XMLHttpRequest();
+		var url = global_dir;
+		http.open("POST", url, true);
+		http.onreadystatechange = function() {
+			if (http.readyState === 4) {  
+				if (http.status === 200) 
+				{  
+			     	var	 res_obj=JSON.parse(http.responseText); 
+					if(res_obj[1]!='' && res_obj[1]!=null && res_obj[1]!=undefined)
+					{
+							$('#report_submit').html(res_obj[1]);
+					}
+				} 
+				else {  
+				}  
+   			 }  
+			
+		}
+		http.send((fd));
+});
+
+
+$("#user-request").on("submit",function (event) {	
+													 
+			var cssStatCode;
+			var pageid;
+	$('#progress').css({'display': 'block'});
+	event.preventDefault();
+  var fd = new FormData();
+ 
+	 var etcData = $(this).serializeArray();
+	    $.each(etcData,function(key,input){
+        fd.append(input.name,input.value);
 		
+    });
 	var fileId = ['addvideo_screenshot','upload-cover'];
 	for (num in fileId) {
 
@@ -117,6 +278,12 @@ $("#user-request").on("submit",function (event) {
 						if(res_obj[2].length>0)
 						{		//alert(res_obj[2]);
 								window.location = res_obj[2];
+						}
+						
+						if(res_obj[1]>0)
+						{
+							$('#activity'+res_obj[1]).html('<label  class="green_blod" >เสร็จ</label>');
+						
 						}
 					}
 				} 
@@ -221,7 +388,7 @@ $(".search_staff").on("submit",function (event) {
 					{
 							$('#feed_con').html('');
 							$('#keyword').val('');
-								fetchListFormJSONobj(res_obj);
+								fetchListFormJSONobj(res_obj,keyword);
 								page=1;
 					}
 							// sendRequestServer(keyword,'DATE','DESC',5,page);
@@ -250,7 +417,7 @@ $(".search_staff").on("submit",function (event) {
 ////////////////////////////////////////// document ready
 
 
-function fetchListFormJSONobj(res_obj)
+function fetchListFormJSONobj(res_obj,keyword)
 {
 	//console.log(res_obj)
 
@@ -272,7 +439,8 @@ var m=0;
 	}); 
 	if(res_obj.length<=0){
 		
-		$('#feed_con').append('<div align="center" class="poster_feed" ><div class="poster_title">ไม่พบสิ่งที่คุณกำลังค้นหา...!</div></div>');
+		//$('#feed_con').append('<div align="center" class="poster_feed" ><div class="poster_title">ไม่พบสิ่งที่คุณกำลังค้นหา...!</div></div>');
+		$('#feed_con').append('<iframe width="100%" height="600px" src="https://www.mov789.com/search.html?q='+encodeURI(keyword)+'"></iframe>');
 	}
 	/*
 	$.each(res_obj, function(idx, obj) 
@@ -335,7 +503,7 @@ function sendRequestServer(sort_type,increment,limit_member) {
 							var	 res_obj=JSON.parse(http.responseText); 
 							/*<div align="center" class="poster_feed" ><a href="https://www.mov789.com/index.php?action=drive&id=62"><img src="https://2.bp.blogspot.com/-DC4HGwI3Cx4/W-EbqODu_NI/AAAAAAAAADI/Dn7AisRf_wMFR6IwJAQZPzk9rI_xK7p5ACK4BGAYYCw/s1600/MV5BMjUxMDQwNjcyNl5BMl5BanBnXkFtZTgwNzcwMzc0MTI%2540._V1_.jpg" /></a></div>*/
 							
-							fetchListFormJSONobj(res_obj);
+							fetchListFormJSONobj(res_obj,keyword);
 							page=page+1;
 						}
 				} 
